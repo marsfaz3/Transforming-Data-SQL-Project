@@ -10,12 +10,12 @@ ORDER BY COUNT(v2productname) DESC
 LIMIT 5;
 ```
 
-Answer:
-"Google Men's 100% Cotton Short Sleeve Hero Tee White"
-"22 oz YouTube Bottle Infuser"
-"YouTube Twill Cap"
-"YouTube Custom Decals"
-"YouTube Men's Short Sleeve Hero Tee Black"
+Answer:  
+"Google Men's 100% Cotton Short Sleeve Hero Tee White"  
+"22 oz YouTube Bottle Infuser"  
+"YouTube Twill Cap"  
+"YouTube Custom Decals"  
+"YouTube Men's Short Sleeve Hero Tee Black"  
 
 **Question 2: Which products were too low on stock at the time of ordering and require restocking to complete the orders? Was enough stock ordered? (see products table)**
 
@@ -56,7 +56,7 @@ GROUP BY
 ORDER BY s.total_ordered;
 ```
 
-Answer:
+Answer:  
 "Android Infant Short Sleeve Tee Pewter" is too low on stock and need to add another three units to the ordered quantity to meet the ordered needs.
 
 **Question 3: What are the price(s) of the top 10 most purchased products? What issue did you identify with the data?**
@@ -108,18 +108,18 @@ WHERE productsku = 'GGOEGFYQ016599'
 GROUP BY v2productname, productprice
 ```	
 
-Answer:
-"Ballpoint LED Light Pen" at 2.00
-"Ballpoint LED Light Pen" at 2.50
-"17oz Stainless Steel Sport Bottle" at 15.19
-"17oz Stainless Steel Sport Bottle" at 18.99
-"Leatherette Journal" at 8.79
-"Leatherette Journal" at 10.99
-"Spiral Journal with Pen" at 9.99
-"Foam Can and Bottle Cooler" at 1.99
-"Foam Can and Bottle Cooler" at 1.99
-"Foam Can and Bottle Cooler" at 1.59
-
+Answer:  
+"Ballpoint LED Light Pen" at 2.00  
+"Ballpoint LED Light Pen" at 2.50  
+"17oz Stainless Steel Sport Bottle" at 15.19  
+"17oz Stainless Steel Sport Bottle" at 18.99  
+"Leatherette Journal" at 8.79  
+"Leatherette Journal" at 10.99  
+"Spiral Journal with Pen" at 9.99  
+"Foam Can and Bottle Cooler" at 1.99  
+"Foam Can and Bottle Cooler" at 1.99  
+"Foam Can and Bottle Cooler" at 1.59  
+  
 The top 10 most purchased items have multiple prices based on the data in the allsessions table. It may be that these items went on sale at some point and dropped price, or customers had a coupon/other deal (note that some entries in allsessions had one date with multiple prices).
 
 Also could have answered with 10 different products:
