@@ -2,13 +2,11 @@
 
 SQL Queries:
 
-```SQL
 SELECT COUNT(v2productname), v2productname
 FROM allsessions
 GROUP BY v2productname
 ORDER BY COUNT(v2productname) DESC
 LIMIT 5;
-```
 
 Answer:
 "Google Men's 100% Cotton Short Sleeve Hero Tee White"
@@ -21,7 +19,6 @@ Answer:
 
 SQL Queries:
 
-```SQL
 WITH p_stock AS (
 SELECT 
 	productsku, 
@@ -33,6 +30,7 @@ SELECT
 		END) AS stockstatus
 	FROM salesreport
 )
+
 
 SELECT 
 	s.productsku, 
@@ -54,16 +52,20 @@ GROUP BY
 	s.stocklevel,
 	p.orderedquantity
 ORDER BY s.total_ordered;
-```
+
+/*
+SELECT COUNT(*)
+FROM p_stock
+WHERE stockstatus = 'out of stock'
+*/
 
 Answer:
-"Android Infant Short Sleeve Tee Pewter" is too low on stock and need to add another three units to the ordered quantity to meet the ordered needs.
+"Android Infant Short Sleeve Tee Pewter" (need to add another three units to the ordered quantity to meet the ordered needs)
 
 **Question 3: What are the price(s) of the top 10 most purchased products? What issue did you identify with the data?**
 
 SQL Queries:
 
-```SQL
 SELECT COUNT(DISTINCT productsku)
 FROM salesreport
 
@@ -93,38 +95,7 @@ WHERE s.total_ordered IS NOT NULL
 ORDER BY s.total_ordered DESC
 LIMIT 10;
 
-SELECT 
-	v2productname,
-	productprice
-FROM allsessions
-WHERE productsku = 'GGOEGOAQ012899'
-GROUP BY v2productname, productprice
 
-SELECT 
-	v2productname,
-	productprice
-FROM allsessions
-WHERE productsku = 'GGOEGFYQ016599'
-GROUP BY v2productname, productprice
-```	
-
-Answer:
-"Ballpoint LED Light Pen" at 2.00
-"Ballpoint LED Light Pen" at 2.50
-"17oz Stainless Steel Sport Bottle" at 15.19
-"17oz Stainless Steel Sport Bottle" at 18.99
-"Leatherette Journal" at 8.79
-"Leatherette Journal" at 10.99
-"Spiral Journal with Pen" at 9.99
-"Foam Can and Bottle Cooler" at 1.99
-"Foam Can and Bottle Cooler" at 1.99
-"Foam Can and Bottle Cooler" at 1.59
-
-The top 10 most purchased items have multiple prices based on the data in the allsessions table. It may be that these items went on sale at some point and dropped price, or customers had a coupon/other deal (note that some entries in allsessions had one date with multiple prices).
-
-Also could have answered with 10 different products:
-
-```SQL
 WITH pricing AS (
 	SELECT 
 		DISTINCT(productsku), 
@@ -145,14 +116,49 @@ FROM salesreport s
 JOIN pricing p
 USING (productsku)
 WHERE s.total_ordered IS NOT NULL;
-```
 
+
+SELECT 
+	v2productname,
+	productprice
+FROM allsessions
+WHERE productsku = 'GGOEGOAQ012899'
+GROUP BY v2productname, productprice
+
+SELECT 
+	v2productname,
+	productprice
+FROM allsessions
+WHERE productsku = 'GGOEGFYQ016599'
+GROUP BY v2productname, productprice
+	
+
+Answer:
+"Ballpoint LED Light Pen"
+"Ballpoint LED Light Pen"
+"17oz Stainless Steel Sport Bottle"
+"17oz Stainless Steel Sport Bottle"
+"Leatherette Journal"
+"Leatherette Journal"
+"Spiral Journal with Pen"
+"Foam Can and Bottle Cooler"
+"Foam Can and Bottle Cooler"
+"Foam Can and Bottle Cooler"
+2.00
+2.50
+15.19
+18.99
+8.79
+10.99
+9.99
+1.99
+1.99
+1.59
 
 **Question 4: How many customers made it to the checkout confirmation page?**
 
 SQL Queries:
 
-```SQL
 SELECT COUNT(*)
 FROM allsessions
 WHERE pagetitle IS NULL;
@@ -161,19 +167,17 @@ SELECT
 	COUNT(DISTINCT fullvisitorid)
 FROM allsessions
 WHERE pagetitle LIKE 'Checkout Confirmation';
-```
 
 Answer:
 
 9 
 
-Note there is one missing data point.
+There is one missing data point however
 
-**Question 5: Are there any descrepancies in the stocklevel and SKU of products in the sales report and products tables?**
+**Question 5: Are there any descrepancies in the stocklevel and SKU of products in the sales report and products tables? **
 
 SQL Queries:
 
-```SQL
 WITH comb_table AS (
 SELECT
 	p.productsku AS sku_from_products,
@@ -186,7 +190,6 @@ FULL OUTER JOIN salesreport s
 USING(productsku)
 )
 
--- no discrepancies in stock
 SELECT COUNT(
 	CASE WHEN stock_from_products <> stock_from_sales THEN 'Error'
 	ELSE NULL
@@ -204,7 +207,7 @@ SELECT COUNT(sku_from_products)
 FROM comb_table
 WHERE sku_from_sales IS NULL
 
--- no sky from salesreport that are not in the products table 
+-- no sales table that are not in the products table 
 SELECT *
 FROM comb_table
 WHERE sku_from_products IS NULL;
@@ -228,7 +231,6 @@ SELECT COUNT(
 	END)
 FROM comb_table
 WHERE stock_from_sales IS NOT NULL;
-```
 
 Answer:
 
